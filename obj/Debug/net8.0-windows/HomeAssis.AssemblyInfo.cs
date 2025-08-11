@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HomeAssis")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0576818c261a93c0b21c220cec5894600520aa60")]
 [assembly: System.Reflection.AssemblyProductAttribute("HomeAssis")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HomeAssis")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
