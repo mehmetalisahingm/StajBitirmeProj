@@ -1,0 +1,16 @@
+C:\Users\Rsa004\source\repos\HomeAssis\bin\Debug\net8.0-windows\HomeAssis.exe
+C:\Users\Rsa004\source\repos\HomeAssis\bin\Debug\net8.0-windows\HomeAssis.deps.json
+C:\Users\Rsa004\source\repos\HomeAssis\bin\Debug\net8.0-windows\HomeAssis.runtimeconfig.json
+C:\Users\Rsa004\source\repos\HomeAssis\bin\Debug\net8.0-windows\HomeAssis.dll
+C:\Users\Rsa004\source\repos\HomeAssis\bin\Debug\net8.0-windows\HomeAssis.pdb
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.Form1.resources
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.csproj.GenerateResource.cache
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.AssemblyInfoInputs.cache
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.AssemblyInfo.cs
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.csproj.CoreCompileInputs.cache
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.dll
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\refint\HomeAssis.dll
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.pdb
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\HomeAssis.genruntimeconfig.cache
+C:\Users\Rsa004\source\repos\HomeAssis\obj\Debug\net8.0-windows\ref\HomeAssis.dll
