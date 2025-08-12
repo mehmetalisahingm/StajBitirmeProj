@@ -1,4 +1,6 @@
-﻿//using System;
+﻿
+//using System;
+//using System.Data.SQLite;
 //using System.Threading;
 
 //namespace HomeAssis
@@ -10,53 +12,124 @@
 //        public int kapi;
 //        public int duman;
 
-//        public void ReadTemperature()
+//        public  int tempesik = 38;
+//        public  int nemesik = 85;
+//        public int dumanesik = 95;
+
+
+//        private Random rnd = new Random();
+//        private string connString = "Data Source=C:\\Users\\Rsa004\\source\\repos\\HomeAssis\\sensors.db;Version=3;";
+
+//        private void SaveToDatabase()
 //        {
-//            Random rnd = new Random();
-//            temp = rnd.Next(20, 40);
-//            Console.WriteLine($"Temperature read: {temp}°C");
+//            using (var conn = new SQLiteConnection(connString))
+//            {
+//                conn.Open();
+
+
+//                string sql = "INSERT INTO Sensors (Temp, Humidity, DoorStatus, Smoke, Date) VALUES (@t, @n, @k, @d, @date)";
+//                using (var cmd = new SQLiteCommand(sql, conn))
+//                {
+//                    cmd.Parameters.AddWithValue("@t", temp);
+//                    cmd.Parameters.AddWithValue("@n", nem);
+//                    cmd.Parameters.AddWithValue("@k", kapi);
+//                    cmd.Parameters.AddWithValue("@d", duman);
+//                    cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+//                    cmd.ExecuteNonQuery();
+//                }
+
+
+
+
+//                if ( temp > tempesik || nem > nemesik || duman > dumanesik)
+//                {
+
+//                    string sqlAlarm = "INSERT INTO Alarms (Temp, Humidity, DoorStatus, Smoke, Date) VALUES (@t, @n, @k, @d, @date)";
+//                    using (var cmdAlarm = new SQLiteCommand(sqlAlarm, conn))
+//                    {
+//                        cmdAlarm.Parameters.AddWithValue("@t", temp);
+//                        cmdAlarm.Parameters.AddWithValue("@n", nem);
+//                        cmdAlarm.Parameters.AddWithValue("@k", kapi);
+//                        cmdAlarm.Parameters.AddWithValue("@d", duman);
+//                        cmdAlarm.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+//                        cmdAlarm.ExecuteNonQuery();
+//                    }
+//                }
+//            }
 //        }
 
-//        public void ReadHumidity()
+//        public void LoadThresholds()
 //        {
-//            Random rnd = new Random();
-//            nem = rnd.Next(30, 90);
-//            Console.WriteLine($"Humidity read: {nem}%");
-//            if (nem > 85)
+//            using var conn = new SQLiteConnection(connString);
+//            conn.Open();
+
+
+//            string insertDefaults = @"
+//        INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Temp', 38);
+//        INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Humidity', 85);
+//        INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Smoke', 95);
+//    ";
+//            using (var cmdDefaults = new SQLiteCommand(insertDefaults, conn))
 //            {
-//                Console.WriteLine("aşırı nemli");
+//                cmdDefaults.ExecuteNonQuery();
 //            }
-//            else
+
+//            string query = "SELECT SensorType, ThresholdValue FROM Thresholds";
+//            using var cmd = new SQLiteCommand(query, conn);
+//            using var reader = cmd.ExecuteReader();
+
+//            while (reader.Read())
 //            {
-//                Console.WriteLine("nem düzeyi normal");
+//                string type = reader.GetString(0);
+//                int value = reader.GetInt32(1);
+
+//                switch (type)
+//                {
+//                    case "Temp":
+//                        tempesik = value;
+//                        break;
+//                    case "Humidity":
+//                        nemesik = value;
+//                        break;
+//                    case "Smoke":
+//                        dumanesik = value;
+//                        break;
+//                }
 //            }
 //        }
 
-//        public void ReadDoor()
-//        {
-//            Random rnd = new Random();
-//            kapi = rnd.Next(0, 2);
-//            Console.WriteLine($"Door status read: {(kapi == 0 ? "Closed" : "Open")}");
-//        }
 
-//        public void ReadSmoke()
+
+
+//        private void ReadTemperature() => temp = rnd.Next(20, 40);
+//        private void ReadHumidity() => nem = rnd.Next(30, 90);
+//        private void ReadDoor() => kapi = rnd.Next(0, 2);
+//        private void ReadSmoke() => duman = rnd.Next(0, 100);
+
+//        public void StartSensors()
 //        {
-//            Random rnd = new Random();
-//            duman = rnd.Next(0, 100);
-//            if (duman > 5)
+
+//            LoadThresholds();
+//            new Thread(() =>
 //            {
-//                Console.WriteLine("duman tespit edilmedi");
-//            }
-//            else
-//            {
-//                Console.WriteLine("duman tespit edildi");
-//            }
+//                while (true)
+//                {
+//                    ReadTemperature();
+//                    ReadHumidity();
+//                    ReadDoor();
+//                    ReadSmoke();
+//                    SaveToDatabase();
+//                    Thread.Sleep(5000); 
+//                }
+//            })
+//            { IsBackground = true }.Start();
 //        }
 //    }
-
-
 //}
+
+
 using System;
+using System.Data.SQLite;
 using System.Threading;
 
 namespace HomeAssis
@@ -68,201 +141,147 @@ namespace HomeAssis
         public int kapi;
         public int duman;
 
+        public int tempesik = 38;
+        public int nemesik = 85;
+        public int dumanesik = 95;
+
         private Random rnd = new Random();
+        private string connString = "Data Source=C:\\Users\\Rsa004\\source\\repos\\HomeAssis\\sensors.db;Version=3;";
 
-        public void ReadTemperature()
+        // Sensör verilerini veritabanına kaydet
+        private void SaveToDatabase()
         {
-            temp = rnd.Next(20, 40);
-            Console.WriteLine($"Temperature read: {temp}°C");
+            using (var conn = new SQLiteConnection(connString))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO Sensors (Temp, Humidity, DoorStatus, Smoke, Date) VALUES (@t, @n, @k, @d, @date)";
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@t", temp);
+                    cmd.Parameters.AddWithValue("@n", nem);
+                    cmd.Parameters.AddWithValue("@k", kapi);
+                    cmd.Parameters.AddWithValue("@d", duman);
+                    cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Eşik aşıldıysa alarm tablosuna da yaz
+                if (temp > tempesik || nem > nemesik || duman > dumanesik)
+                {
+                    string sqlAlarm = "INSERT INTO Alarms (Temp, Humidity, DoorStatus, Smoke, Date) VALUES (@t, @n, @k, @d, @date)";
+                    using (var cmdAlarm = new SQLiteCommand(sqlAlarm, conn))
+                    {
+                        cmdAlarm.Parameters.AddWithValue("@t", temp);
+                        cmdAlarm.Parameters.AddWithValue("@n", nem);
+                        cmdAlarm.Parameters.AddWithValue("@k", kapi);
+                        cmdAlarm.Parameters.AddWithValue("@d", duman);
+                        cmdAlarm.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        cmdAlarm.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
-        public void ReadHumidity()
+        // Thresholds tablosundan eşik değerleri oku, yoksa varsayılanları ekle
+        public void LoadThresholds()
         {
-            nem = rnd.Next(30, 90);
-            Console.WriteLine($"Humidity read: {nem}%");
-            if (nem > 85)
-                Console.WriteLine("Aşırı nemli");
-            else
-                Console.WriteLine("Nem düzeyi normal");
+            using var conn = new SQLiteConnection(connString);
+            conn.Open();
+
+            string createTable = @"
+                CREATE TABLE IF NOT EXISTS Thresholds (
+                    SensorType TEXT PRIMARY KEY,
+                    ThresholdValue INTEGER
+                );
+            ";
+            using (var cmdCreate = new SQLiteCommand(createTable, conn))
+            {
+                cmdCreate.ExecuteNonQuery();
+            }
+
+            string insertDefaults = @"
+                INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Temp', 38);
+                INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Humidity', 85);
+                INSERT OR IGNORE INTO Thresholds (SensorType, ThresholdValue) VALUES ('Smoke', 95);
+            ";
+            using (var cmdDefaults = new SQLiteCommand(insertDefaults, conn))
+            {
+                cmdDefaults.ExecuteNonQuery();
+            }
+
+            string query = "SELECT SensorType, ThresholdValue FROM Thresholds";
+            using var cmd = new SQLiteCommand(query, conn);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string type = reader.GetString(0);
+                int value = reader.GetInt32(1);
+
+                switch (type)
+                {
+                    case "Temp":
+                        tempesik = value;
+                        break;
+                    case "Humidity":
+                        nemesik = value;
+                        break;
+                    case "Smoke":
+                        dumanesik = value;
+                        break;
+                }
+            }
         }
 
-        public void ReadDoor()
+        // Thresholds tablosundaki eşik değerini güncelle ve belleği de güncelle
+        public void UpdateThreshold(string sensorType, int newValue)
         {
-            kapi = rnd.Next(0, 2);
-            Console.WriteLine($"Door status read: {(kapi == 0 ? "Closed" : "Open")}");
+            using var conn = new SQLiteConnection(connString);
+            conn.Open();
+
+            string sql = @"
+                INSERT INTO Thresholds (SensorType, ThresholdValue) VALUES (@sensorType, @value)
+                ON CONFLICT(SensorType) DO UPDATE SET ThresholdValue=excluded.ThresholdValue;
+            ";
+
+            using var cmd = new SQLiteCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@sensorType", sensorType);
+            cmd.Parameters.AddWithValue("@value", newValue);
+            cmd.ExecuteNonQuery();
+
+            switch (sensorType)
+            {
+                case "Temp": tempesik = newValue; break;
+                case "Humidity": nemesik = newValue; break;
+                case "Smoke": dumanesik = newValue; break;
+            }
         }
 
-        public void ReadSmoke()
-        {
-            duman = rnd.Next(0, 100);
-            if (duman > 5)
-                Console.WriteLine("Duman tespit edilmedi");
-            else
-                Console.WriteLine("Duman tespit edildi");
-        }
+        // Sensör değerlerini simüle eden metodlar
+        private void ReadTemperature() => temp = rnd.Next(20, 40);
+        private void ReadHumidity() => nem = rnd.Next(30, 90);
+        private void ReadDoor() => kapi = rnd.Next(0, 2);
+        private void ReadSmoke() => duman = rnd.Next(0, 100);
 
+        // Sensörleri başlatan döngü (her 5 saniyede bir değer oku ve kaydet)
         public void StartSensors()
         {
+            LoadThresholds();
+
             new Thread(() =>
             {
                 while (true)
                 {
                     ReadTemperature();
-                    Thread.Sleep(30000); // 30 saniye bekle
-                }
-            })
-            { IsBackground = true }.Start();
-
-            new Thread(() =>
-            {
-                while (true)
-                {
                     ReadHumidity();
-                    Thread.Sleep(30000);
-                }
-            })
-            { IsBackground = true }.Start();
-
-            new Thread(() =>
-            {
-                while (true)
-                {
                     ReadDoor();
-                    Thread.Sleep(30000);
-                }
-            })
-            { IsBackground = true }.Start();
-
-            new Thread(() =>
-            {
-                while (true)
-                {
                     ReadSmoke();
-                    Thread.Sleep(30000);
+                    SaveToDatabase();
+                    Thread.Sleep(5000);
                 }
             })
             { IsBackground = true }.Start();
         }
     }
-
-    //class Program
-    //{
-    //    static void Main(string[] args)
-    //    {
-    //        Sensorler sens = new Sensorler();
-    //        sens.StartSensors();
-
-    //        Console.WriteLine("Sensörler çalışıyor. Çıkmak için bir tuşa basın...");
-    //        Console.ReadKey();
-    //    }
-    //}
 }
-
-
-//using System;
-//using System.Runtime.CompilerServices;
-//using System.Threading;
-
-//namespace HomeAssis
-//{
-//    public class Sensorler
-//    {
-//        public int temp;
-//        public int nem;
-//        public int kapi;
-//        public int duman;
-//        public int tempesik = 38;
-//        public int nemesik = 85;
-//        public int dumanesik =5;
-
-//        private Random rnd = new Random();
-
-//        public void ReadTemperature()
-//        {
-//            temp = rnd.Next(20, 40);
-//            Console.WriteLine($"Temperature read: {temp}°C");
-//        }
-
-//        public void ReadHumidity()
-//        {
-//            nem = rnd.Next(30, 90);
-//            Console.WriteLine($"Humidity read: {nem}%");
-//            if (nem > nemesik)
-//                Console.WriteLine("Aşırı nemli");
-//            else
-//                Console.WriteLine("Nem düzeyi normal");
-//        }
-
-//        public void ReadDoor()
-//        {
-//            kapi = rnd.Next(0, 2);
-//            Console.WriteLine($"Door status read: {(kapi == 0 ? "Closed" : "Open")}");
-//        }
-
-//        public void ReadSmoke()
-//        {
-//            duman = rnd.Next(0, 100);
-//            Console.WriteLine($"duman yüzdesi {duman}"); 
-                
-//            if (duman > dumanesik)
-//                Console.WriteLine("Duman tespit edilmedi");
-//            else
-//                Console.WriteLine("Duman tespit edildi");
-//        }
-
-//        public void StartSensors()
-//        {
-//            new Thread(() =>
-//            {
-//                while (true)
-//                {
-//                    ReadTemperature();
-//                    Thread.Sleep(5000); 
-//                }
-//            })
-//            { IsBackground = true }.Start();
-
-//            new Thread(() =>
-//            {
-//                while (true)
-//                {
-//                    ReadHumidity();
-//                    Thread.Sleep(5000);
-//                }
-//            })
-//            { IsBackground = true }.Start();
-
-//            new Thread(() =>
-//            {
-//                while (true)
-//                {
-//                    ReadDoor();
-//                    Thread.Sleep(5000);
-//                }
-//            })
-//            { IsBackground = true }.Start();
-
-//            new Thread(() =>
-//            {
-//                while (true)
-//                {
-//                    ReadSmoke();
-//                    Thread.Sleep(5000);
-//                }
-//            })
-//            { IsBackground = true }.Start();
-//        }
-//    }
-
-//    class Program
-//    {
-//        static void Main(string[] args)
-//        {
-//            Sensorler sens = new Sensorler();
-//            sens.StartSensors();
-
-//            Console.WriteLine("Sensörler çalışıyor. Çıkmak için bir tuşa basın...");
-//            Console.ReadKey();
-//        }
-//    }
-//}
