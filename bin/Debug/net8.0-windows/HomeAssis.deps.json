@@ -9,6 +9,7 @@
       "HomeAssis/1.0.0": {
         "dependencies": {
           "Microsoft.Data.Sqlite": "9.0.8",
+          "Microsoft.Data.Sqlite.Core": "9.0.8",
           "SQLite": "3.13.0",
           "System.Data.SQLite": "1.0.119"
         },
