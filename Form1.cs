@@ -38,7 +38,7 @@ namespace HomeAssis
             timer.Interval = 5000;
             timer.Tick += Timer_Tick;
             timer.Start();
-
+                    
             MessageBox.Show("Sensörler çalışmaya başladı, veriler veritabanına yazılıyor.");
         }
         private void Timer_Tick(object sender, EventArgs e)
@@ -230,7 +230,7 @@ namespace HomeAssis
 
             if (string.IsNullOrWhiteSpace(newSensorColumn))
             {
-                MessageBox.Show("Ge�erli bir sens�r ad� girmediniz.");
+                MessageBox.Show("Ge�erli bir sensor adi girmediniz.");
                 return;
             }
 
@@ -255,13 +255,13 @@ namespace HomeAssis
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show($"'{newSensorColumn}' sens�r s�tunu ba�ar�yla eklendi.");
+                    MessageBox.Show($"'{newSensorColumn}' sensor sutunu basariyla eklendi.");
                 }
                 catch (SQLiteException ex)
                 {
                     if (ex.Message.Contains("duplicate column name"))
                     {
-                        MessageBox.Show($"'{newSensorColumn}' s�tunu zaten mevcut.");
+                        MessageBox.Show($"'{newSensorColumn}' sutunu zaten mevcut.");
                     }
                     else
                     {
@@ -271,7 +271,7 @@ namespace HomeAssis
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Veritaban� ba�lant�s�nda hata: " + ex.Message);
+                MessageBox.Show("Veritabani baglantisinda hata: " + ex.Message);
             }
         }
 
@@ -316,7 +316,7 @@ namespace HomeAssis
 
                 if (remainingColumns.Count == 0)
                 {
-                    MessageBox.Show("Tabloda en az bir sutun olmalidir. Silme i�lemi iptal edildi.");
+                    MessageBox.Show("Tabloda en az bir sutun olmalidir. Silme islemi iptal edildi.");
                     return;
                 }
 
@@ -387,7 +387,7 @@ namespace HomeAssis
                 using var cmd = new SQLiteCommand(sql, conn);
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show($"'{oldName}' s�tunu '{newName}' olarak ba�ar�yla de�i�tirildi.");
+                MessageBox.Show($"'{oldName}' sutunu '{newName}' olarak başarıyla degistirildi.");
             }
             catch (Exception ex)
             {

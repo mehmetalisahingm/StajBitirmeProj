@@ -18,8 +18,7 @@ namespace HomeAssis
         private Random rnd = new Random();
         private string connString = "Data Source=C:\\Users\\Rsa004\\source\\repos\\HomeAssis\\sensors.db;Version=3;";
         //private string connString = "Data Source=C:\\Users\\mehmet\\Desktop\\sensors.db;Version=3;";
-
-       
+      
         private void SaveToDatabase()
         {
             using (var conn = new SQLiteConnection(connString))
@@ -48,15 +47,13 @@ namespace HomeAssis
                         cmdAlarm.Parameters.AddWithValue("@k", kapi);
                         cmdAlarm.Parameters.AddWithValue("@d", duman);
                         cmdAlarm.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        cmdAlarm.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
 
                         cmdAlarm.ExecuteNonQuery();
                     }
                 }
             }
         }
-
-      
         public void LoadThresholds()
         {
             using var conn = new SQLiteConnection(connString);
@@ -128,15 +125,12 @@ namespace HomeAssis
                 case "Humidity": nemesik = newValue; break;
                 case "Smoke": dumanesik = newValue; break;
             }
-        }
-
-    
-        private void ReadTemperature() => temp = rnd.Next(20, 40);
-        private void ReadHumidity() => nem = rnd.Next(30, 90);
+        }    
+        private void ReadTemperature() => temp = rnd.Next(20, 41);
+        private void ReadHumidity() => nem = rnd.Next(30, 91);
         private void ReadDoor() => kapi = rnd.Next(0, 2);
-        private void ReadSmoke() => duman = rnd.Next(0, 100);
-
-     
+        private void ReadSmoke() => duman = rnd.Next(0, 101);
+    
         public void StartSensors()
         {
             LoadThresholds();
