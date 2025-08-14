@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             dataGridView1 = new DataGridView();
             dataGridView2 = new DataGridView();
             btn1 = new Button();
@@ -42,31 +43,32 @@
             // dataGridView1
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.BackgroundColor = SystemColors.ActiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(24, 16);
-            dataGridView1.Margin = new Padding(3, 4, 3, 4);
+            dataGridView1.GridColor = SystemColors.Menu;
+            dataGridView1.Location = new Point(12, 12);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1096, 437);
+            dataGridView1.Size = new Size(632, 328);
             dataGridView1.TabIndex = 0;
             // 
             // dataGridView2
             // 
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.BackgroundColor = SystemColors.ActiveCaption;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(24, 492);
-            dataGridView2.Margin = new Padding(3, 4, 3, 4);
+            dataGridView2.Location = new Point(12, 359);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.Size = new Size(1325, 437);
+            dataGridView2.Size = new Size(1130, 328);
             dataGridView2.TabIndex = 1;
             // 
             // btn1
             // 
-            btn1.Location = new Point(1178, 16);
-            btn1.Margin = new Padding(3, 4, 3, 4);
+            btn1.BackgroundImage = (Image)resources.GetObject("btn1.BackgroundImage");
+            btn1.Location = new Point(683, 26);
             btn1.Name = "btn1";
-            btn1.Size = new Size(171, 44);
+            btn1.Size = new Size(150, 33);
             btn1.TabIndex = 2;
             btn1.Text = "Sensor Ekle";
             btn1.UseVisualStyleBackColor = true;
@@ -74,10 +76,10 @@
             // 
             // btn2
             // 
-            btn2.Location = new Point(1178, 84);
-            btn2.Margin = new Padding(3, 4, 3, 4);
+            btn2.BackgroundImage = (Image)resources.GetObject("btn2.BackgroundImage");
+            btn2.Location = new Point(683, 65);
             btn2.Name = "btn2";
-            btn2.Size = new Size(171, 44);
+            btn2.Size = new Size(150, 33);
             btn2.TabIndex = 3;
             btn2.Text = "Esik Deger Duzenle";
             btn2.UseVisualStyleBackColor = true;
@@ -85,10 +87,10 @@
             // 
             // btn4
             // 
-            btn4.Location = new Point(1178, 248);
-            btn4.Margin = new Padding(3, 4, 3, 4);
+            btn4.BackgroundImage = (Image)resources.GetObject("btn4.BackgroundImage");
+            btn4.Location = new Point(683, 152);
             btn4.Name = "btn4";
-            btn4.Size = new Size(171, 44);
+            btn4.Size = new Size(150, 33);
             btn4.TabIndex = 4;
             btn4.Text = "Sensor Duzenle";
             btn4.UseVisualStyleBackColor = true;
@@ -96,10 +98,10 @@
             // 
             // btn3
             // 
-            btn3.Location = new Point(1178, 162);
-            btn3.Margin = new Padding(3, 4, 3, 4);
+            btn3.BackgroundImage = (Image)resources.GetObject("btn3.BackgroundImage");
+            btn3.Location = new Point(683, 113);
             btn3.Name = "btn3";
-            btn3.Size = new Size(171, 44);
+            btn3.Size = new Size(150, 33);
             btn3.TabIndex = 5;
             btn3.Text = "Sensor Sil";
             btn3.UseVisualStyleBackColor = true;
@@ -107,10 +109,10 @@
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(1178, 332);
-            btnClear.Margin = new Padding(3, 4, 3, 4);
+            btnClear.BackgroundImage = (Image)resources.GetObject("btnClear.BackgroundImage");
+            btnClear.Location = new Point(683, 191);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(171, 44);
+            btnClear.Size = new Size(150, 33);
             btnClear.TabIndex = 6;
             btnClear.Text = "tabloları temizle";
             btnClear.UseVisualStyleBackColor = true;
@@ -118,9 +120,10 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1456, 949);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(1183, 712);
             Controls.Add(btnClear);
             Controls.Add(btn3);
             Controls.Add(btn4);
@@ -128,7 +131,6 @@
             Controls.Add(btn1);
             Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

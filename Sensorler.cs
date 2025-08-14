@@ -16,8 +16,8 @@ namespace HomeAssis
         public int dumanesik = 95;
 
         private Random rnd = new Random();
-        //private string connString = "Data Source=C:\\Users\\Rsa004\\source\\repos\\HomeAssis\\sensors.db;Version=3;";
-        private string connString = "Data Source=C:\\Users\\mehmet\\Desktop\\sensors.db;Version=3;";
+        private string connString = "Data Source=C:\\Users\\Rsa004\\source\\repos\\HomeAssis\\sensors.db;Version=3;";
+        //private string connString = "Data Source=C:\\Users\\mehmet\\Desktop\\sensors.db;Version=3;";
 
        
         private void SaveToDatabase()
@@ -150,7 +150,7 @@ namespace HomeAssis
                     ReadDoor();
                     ReadSmoke();
                     SaveToDatabase();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
             })
             { IsBackground = true }.Start();

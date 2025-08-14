@@ -9,8 +9,8 @@ namespace HomeAssis
     {
         private Sensorler sensor;
         private System.Windows.Forms.Timer timer;
-        //private string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
-        private string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
+        private string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
+        //private string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
 
         public Form1()
         {
@@ -25,7 +25,6 @@ namespace HomeAssis
             sensor = new Sensorler();
             sensor.StartSensors();
 
-            // DataGridView2’ye AlarmMessage sütunu ekle
             if (!dataGridView2.Columns.Contains("AlarmMessage"))
             {
                 DataGridViewTextBoxColumn col = new DataGridViewTextBoxColumn();
@@ -91,7 +90,7 @@ namespace HomeAssis
                 if (row.Cells["Smoke"].Value != DBNull.Value)
                     int.TryParse(row.Cells["Smoke"].Value.ToString(), out duman);
 
-              
+
                 row.Cells["Temp"].Style.BackColor = System.Drawing.Color.White;
                 row.Cells["Temp"].Style.ForeColor = System.Drawing.Color.Black;
 
@@ -101,7 +100,7 @@ namespace HomeAssis
                 row.Cells["Smoke"].Style.BackColor = System.Drawing.Color.White;
                 row.Cells["Smoke"].Style.ForeColor = System.Drawing.Color.Black;
 
-              
+
                 if (temp > sensor.tempesik)
                 {
                     row.Cells["Temp"].Style.BackColor = System.Drawing.Color.Red;
@@ -119,7 +118,7 @@ namespace HomeAssis
                 }
             }
         }
-      
+
         private void DataGridView2_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             foreach (DataGridViewRow row in dataGridView2.Rows)
@@ -168,7 +167,7 @@ namespace HomeAssis
             {
                 form.Width = 250;
                 form.Height = 150;
-                form.Text = "E�ik Se�imi";
+                form.Text = "Esik Secimi";
 
                 ListBox listBox = new ListBox()
                 {
@@ -208,25 +207,25 @@ namespace HomeAssis
                 return;
 
             string input = Microsoft.VisualBasic.Interaction.InputBox(
-                $"Yeni {selected} e�ik de�erini girin:", "E�ik De�eri G�ncelleme", "0");
+                $"Yeni {selected} esik degerini girin:", "Esik Degeri Guncelleme", "0");
 
             if (int.TryParse(input, out int newThreshold))
             {
                 sensor.UpdateThreshold(selected, newThreshold);
 
-                MessageBox.Show($"{selected} e�ik de�eri {newThreshold} olarak g�ncellendi.");
+                MessageBox.Show($"{selected} esik degeri {newThreshold} olarak guncellendi.");
             }
             else
             {
-                MessageBox.Show("Ge�erli bir say� girmediniz.");
+                MessageBox.Show("Gecerli bir sayi girmediniz.");
             }
         }
 
         private void btn1_Click(object sender, EventArgs e)
         {
             string newSensorColumn = Microsoft.VisualBasic.Interaction.InputBox(
-                "Veri taban�na eklenecek yeni sens�r s�tun ad�n� girin:",
-                "Yeni Sens�r Ekle",
+                "Veri tabanina eklenecek yeni sensor sutun adini girin:",
+                "Yeni Sensor Ekle",
                 "YeniSensor");
 
             if (string.IsNullOrWhiteSpace(newSensorColumn))
@@ -241,8 +240,8 @@ namespace HomeAssis
                 return;
             }
 
-            //string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
-            string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
+            string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
+            //string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
 
             try
             {
@@ -279,18 +278,18 @@ namespace HomeAssis
         private void btn3_Click(object sender, EventArgs e)
         {
             string sensorToDelete = Microsoft.VisualBasic.Interaction.InputBox(
-                "Silmek istedi�iniz sens�r s�tun ad�n� girin:",
-                "Sens�r Sil",
-                "S�tunAd�");
+                "Silmek istediginiz sensor sutun adini girin:",
+                "Sensor Sil",
+                "SutunAdi");
 
             if (string.IsNullOrWhiteSpace(sensorToDelete))
             {
-                MessageBox.Show("Ge�erli bir s�tun ad� girmediniz.");
+                MessageBox.Show("Gecerli bir sutun adi girmediniz.");
                 return;
             }
 
-            //string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
-            string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
+            string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
+            //string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
 
             try
             {
@@ -309,7 +308,7 @@ namespace HomeAssis
 
                 if (!columns.Any(c => c.Equals(sensorToDelete, StringComparison.OrdinalIgnoreCase)))
                 {
-                    MessageBox.Show($"'{sensorToDelete}' adl� s�tun tablo i�inde bulunamad�.");
+                    MessageBox.Show($"'{sensorToDelete}' adli sutun tablo icinde bulunamadi.");
                     return;
                 }
 
@@ -317,7 +316,7 @@ namespace HomeAssis
 
                 if (remainingColumns.Count == 0)
                 {
-                    MessageBox.Show("Tabloda en az bir s�tun olmal�d�r. Silme i�lemi iptal edildi.");
+                    MessageBox.Show("Tabloda en az bir sutun olmalidir. Silme i�lemi iptal edildi.");
                     return;
                 }
 
@@ -343,11 +342,11 @@ namespace HomeAssis
                     tran.Commit();
                 }
 
-                MessageBox.Show($"'{sensorToDelete}' s�tunu ba�ar�yla silindi.");
+                MessageBox.Show($"'{sensorToDelete}' sutunu basarıyla silindi.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("S�tun silinirken hata olu�tu: " + ex.Message);
+                MessageBox.Show("u�tun silinirken hata olustu: " + ex.Message);
             }
         }
 
@@ -355,29 +354,29 @@ namespace HomeAssis
         private void btn4_Click(object sender, EventArgs e)
         {
             string oldName = Microsoft.VisualBasic.Interaction.InputBox(
-                "De�i�tirmek istedi�iniz sens�r s�tun ad�n� girin:",
-                "Sens�r D�zenle",
-                "EskiSutunAd�");
+                "Degistirmek istediginiz sensor sutun adini girin:",
+                "Sensor Duzenle",
+                "EskiSutunAdi");
 
             if (string.IsNullOrWhiteSpace(oldName))
             {
-                MessageBox.Show("Ge�erli bir eski s�tun ad� girmediniz.");
+                MessageBox.Show("Gecerli bir eski sutun adi girmediniz.");
                 return;
             }
 
             string newName = Microsoft.VisualBasic.Interaction.InputBox(
-                $"'{oldName}' s�tununun yeni ad�n� girin:",
-                "Sens�r D�zenle",
-                "YeniSutunAd�");
+                $"'{oldName}' sutununun yeni adini girin:",
+                "Sensor Duzenle",
+                "YeniSutunAdi");
 
             if (string.IsNullOrWhiteSpace(newName))
             {
-                MessageBox.Show("Ge�erli bir yeni s�tun ad� girmediniz.");
+                MessageBox.Show("Gecerli bir yeni sutun adi girmediniz.");
                 return;
             }
 
-            //string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
-            string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
+            string connString = @"Data Source=C:\Users\Rsa004\source\repos\HomeAssis\sensors.db;Version=3;";
+            //string connString = @"Data Source=C:\Users\mehmet\Desktop\sensors.db;Version=3;";
 
             try
             {
@@ -432,7 +431,7 @@ namespace HomeAssis
             }
         }
 
-
+      
     }
 }
 
